@@ -14,32 +14,64 @@ class UploadBlogView extends GetView<UploadBlogController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: Column(children: [
-        CustomAppBar(title: "Create Blog"),
-        ReusableTextField(
-            controller: TextEditingController(), hintText: "Title"),
-        SizedBox(
-          height: 20.h,
-        ),
-        ReusableTextField(
-          controller: TextEditingController(),
-          hintText: "Description",
-          maxLine: 5,
-        ),
-        SizedBox(
-          height: 20.h,
-        ),
-        Container(
-          height: 155.h,
-          alignment: Alignment.center,
-          child: CustomButton(title: "Upload Image", function: () {}),
-        ),
-      ]),
-      bottomSheet: Container(
-        height: 50.h,
-        alignment: Alignment.topCenter,
-        child: CustomButton(title: "Create Blog", function: () {}),
+      body: SingleChildScrollView(
+        child: Column(children: [
+          const CustomAppBar(title: "Create Blog"),
+          ReusableTextField(controller: controller.title, hintText: "Title"),
+          SizedBox(
+            height: 20.h,
+          ),
+          ReusableTextField(
+            controller: controller.description,
+            hintText: "Description",
+            maxLine: 5,
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          Container(
+            alignment: Alignment.center,
+            child: GetBuilder<UploadBlogController>(builder: (value) {
+              if (value.imageFile != null) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                  child: GestureDetector(
+                      onTap: () {
+                        controller.pickImage();
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.file(
+                          value.imageFile!,
+                          fit: BoxFit.cover,
+                          height: 200.h,
+                          width: Get.width,
+                        ),
+                      )),
+                );
+              } else {
+                return CustomButton(
+                    title: "Upload Image",
+                    function: () {
+                      controller.pickImage();
+                    });
+              }
+            }),
+          ),
+          SizedBox(height: 20.h,),
+          Container(
+            height: 50.h,
+            margin: EdgeInsets.only(bottom: 10.sp),
+            alignment: Alignment.topCenter,
+            child: CustomButton(
+                title: "Create Blog",
+                function: () {
+                  controller.createBlog();
+                }),
+          ),
+        ]),
       ),
+
     ));
   }
 }
