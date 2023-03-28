@@ -2,7 +2,6 @@ import 'package:blog_app/app/data/global_widgets/post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../../routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
@@ -31,15 +30,23 @@ class HomeView extends GetView<HomeController> {
           ]),
         ),
         Expanded(
-            child: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: EdgeInsets.all(8.0.sp),
-              child: Post(),
-            );
-          },
-        ))
+            child: GetBuilder<HomeController>(builder: (value){
+              if(value.blogs.isNotEmpty){
+                return ListView.builder(
+                  itemCount: value.blogs.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.all(8.0.sp),
+                      child: Post(
+                        model: value.blogs[index],
+                      ),
+                    );
+                  },
+                );
+              }else{
+                return const Center(child: Text("No Blogs Available"),);
+              }
+            },)),
       ]),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -47,7 +54,7 @@ class HomeView extends GetView<HomeController> {
         },
         label: Row(children: [
           Icon(Icons.upload,size: 24.sp),
-          SizedBox(width: 5,),
+          const SizedBox(width: 5,),
           Text(
             "Create Blog",
             style: TextStyle(fontSize: 15.sp),

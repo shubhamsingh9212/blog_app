@@ -1,3 +1,4 @@
+import 'package:blog_app/app/models/blog_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,8 @@ import 'package:get/get.dart';
 import '../../routes/app_pages.dart';
 
 class Post extends StatelessWidget {
-  const Post({Key? key}) : super(key: key);
+  final BlogModel model;
+  const Post({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +22,11 @@ class Post extends StatelessWidget {
           //image
           Container(
             height: 160.h,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration:  BoxDecoration(
+              borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               image: DecorationImage(
-                image: NetworkImage(
-                  "https://t3.ftcdn.net/jpg/01/59/18/36/360_F_159183621_0YTKAAqAA7GI7DlCBfYJ2wfKbC6Zf30V.jpg",
-                ),
+                image: NetworkImage(model.img ?? ""),
                 fit: BoxFit.cover,
               ),
             ),
@@ -34,7 +34,7 @@ class Post extends StatelessWidget {
           SizedBox(
             height: 10.h,
           ),
-          Text("Blog Post Title",
+          Text(model.title ?? "",
               style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500),
               maxLines: 2,
               overflow: TextOverflow.ellipsis),

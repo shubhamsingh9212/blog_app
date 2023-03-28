@@ -5,14 +5,23 @@ import 'package:blog_app/app/data/global_widgets/indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../models/blog_models.dart';
 import '../routes/app_pages.dart';
 
 class FirebaseFunctions {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _storage = FirebaseStorage.instance;
+
+  // bool _hasMoreData = true;
+  final RxBool isLoading = false.obs;
+
+  // DocumentSnapshot? _lastDocument;
+  // final int _documentLimit = 15;
+  // final ScrollController controller = ScrollController();
 
   Future<void> createUserCredential(String name, String email) async {
     try {
@@ -61,8 +70,25 @@ class FirebaseFunctions {
       url = await uploadTask.ref.getDownloadURL();
       return url;
     } catch (e) {
-      showAlert("${e}");
+      showAlert(e.toString());
     }
     return url;
+  }
+
+  Future<List<BlogModel>> getBlogs() async {
+    List<BlogModel> blogData = [];
+    try {
+      await _firebaseFirestore.collection("blogs").get().then((value) {
+        for (int i = 0; i < value.docs.length; i++) {
+          blogData.add(BlogModel.fromJson(value.docs[i].data()));
+        }
+        return blogData;
+      });
+    } catch (e) {
+      showAlert(e.toString());
+      return [];
+    }
+    debugPrint("blog data entered 2");
+    return blogData;
   }
 }

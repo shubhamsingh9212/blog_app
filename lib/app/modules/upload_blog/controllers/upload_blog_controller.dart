@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:blog_app/app/data/const.dart';
 import 'package:blog_app/app/data/firebase_functions.dart';
 import 'package:blog_app/app/data/global_widgets/indicator.dart';
+import 'package:blog_app/app/modules/home/controllers/home_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,7 +18,7 @@ class UploadBlogController extends GetxController {
   Future<void> pickImage() async {
     try {
       ImagePicker _picker = ImagePicker();
-      await _picker.pickImage(source: ImageSource.gallery).then((value) {
+      await _picker.pickImage(source: ImageSource.gallery,imageQuality: 30).then((value) {
         if (value != null) {
           imageFile = File(value.path);
           update();
@@ -32,12 +33,15 @@ class UploadBlogController extends GetxController {
     if (title.text.isNotEmpty && description.text.isNotEmpty) {
       if (imageFile != null) {
         Indicator.showLoading();
-        await _functions.uploadBlog(title.text, description.text, imageFile!)
-            .then((value) { Indicator.closeLoading();
-              showAlert("Blog created successfully");
-            Get.back();
-            }
-            );
+        await _functions
+            .uploadBlog(title.text, description.text, imageFile!)
+            .then((value) {
+          Indicator.closeLoading();
+          showAlert("Blog created successfully");
+          Get.back();
+          final homeController = Get.find<HomeController>();
+          homeController.getData();
+        });
       } else {
         showAlert("Image is required");
       }
@@ -45,5 +49,4 @@ class UploadBlogController extends GetxController {
       showAlert("All fields are required");
     }
   }
-
 }
