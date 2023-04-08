@@ -13,40 +13,43 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 100.h,
-          ),
-          Container(
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 20.sp),
-              child: Text(
-                "LOGIN",
-                style: TextStyle(
-                    fontSize: 35.sp,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w500),
-              )),
-          SizedBox(
-            height: 40.h,
-          ),
-          ReusableTextField(
-              controller: controller.email, hintText: "Email"),
-          SizedBox(
-            height: 20.h,
-          ),
-          ReusableTextField(
-              controller: controller.password, hintText: "Password"),
-          SizedBox(
-            height: 27.h,
-          ),
-          CustomButton(function: () {
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 100.h,
+            ),
+            Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 20.sp),
+                child: Text(
+                  "LOGIN",
+                  style: TextStyle(
+                      fontSize: 35.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500),
+                )),
+            SizedBox(
+              height: 40.h,
+            ),
+            ReusableTextField(
+                controller: controller.email, hintText: "Email"),
+            SizedBox(
+              height: 20.h,
+            ),
+            ReusableTextField(
+                controller: controller.password, hintText: "Password", obscure: true
+            ),
+            SizedBox(
+              height: 27.h,
+            ),
+            CustomButton(function: () {
 
-            controller.onLogin();
-          }, title: "Login"),
-        ],
+              controller.onLogin();
+            }, title: "Login"),
+          ],
+        ),
       ),
       bottomSheet: Container(
         height: 40.h,

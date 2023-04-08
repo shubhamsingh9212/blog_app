@@ -1,4 +1,5 @@
 import 'package:blog_app/app/data/global_widgets/appBar.dart';
+import 'package:blog_app/app/models/blog_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class BlogDetailScreenView extends GetView<BlogDetailScreenController> {
             alignment: Alignment.topLeft,
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
             child: Text(
-              "Blog Title",
+              controller.argument.title ?? "",
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),
             ),
           ),
@@ -33,20 +34,21 @@ class BlogDetailScreenView extends GetView<BlogDetailScreenController> {
             margin: EdgeInsets.symmetric(horizontal: 10.sp),
             height: 200.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.sp),
+                borderRadius: BorderRadius.circular(10.sp),
                 image: DecorationImage(
                     image: NetworkImage(
-                      "https://t3.ftcdn.net/jpg/01/59/18/36/360_F_159183621_0YTKAAqAA7GI7DlCBfYJ2wfKbC6Zf30V.jpg",
+                      controller.argument.img ?? ""
                     ),
                     fit: BoxFit.cover)),
-          ),SizedBox(
+          ),
+          SizedBox(
             height: 10.h,
           ),
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.symmetric(horizontal: 15.sp),
             child: Text(
-              "Blog Description",
+              controller.argument.description ?? "",
               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),
             ),
           ),

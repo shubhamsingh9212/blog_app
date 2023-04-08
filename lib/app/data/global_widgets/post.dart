@@ -7,13 +7,22 @@ import '../../routes/app_pages.dart';
 
 class Post extends StatelessWidget {
   final BlogModel model;
-  const Post({Key? key, required this.model}) : super(key: key);
+  final bool isPopUpMenuEnabled;
+  final Function edit, delete;
+
+  const Post(
+      {Key? key,
+      required this.model,
+      required this.isPopUpMenuEnabled,
+      required this.edit,
+      required this.delete})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routes.BLOG_DETAIL_SCREEN);
+        Get.toNamed(Routes.BLOG_DETAIL_SCREEN,arguments: model);
       },
       child: Material(
         elevation: 4,
@@ -22,7 +31,7 @@ class Post extends StatelessWidget {
           //image
           Container(
             height: 160.h,
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               image: DecorationImage(
@@ -30,7 +39,33 @@ class Post extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            alignment: Alignment.topRight,
+            child: isPopUpMenuEnabled
+                ? Padding(
+                    padding: EdgeInsets.all(10.sp),
+                    child: PopupMenuButton(
+                      onSelected: (value) {
+                        if (value == 0) {
+                          edit();
+                        } else {
+                          delete();
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: 0,
+                          child: Text("Edit"),
+                        ),
+                        const PopupMenuItem(
+                          value: 1,
+                          child: Text("Delete"),
+                        )
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
           ),
+
           SizedBox(
             height: 10.h,
           ),

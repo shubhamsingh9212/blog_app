@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+
+import '../../routes/app_pages.dart';
 
 class FirebaseAuthentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -31,6 +35,7 @@ class FirebaseAuthentication {
   Future<void> logOut() async {
     try {
       _auth.signOut();
+      Get.offAllNamed(Routes.LOGIN);
     } catch (e) {
       print(e);
     }

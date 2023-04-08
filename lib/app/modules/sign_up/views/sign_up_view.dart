@@ -44,7 +44,7 @@ class SignUpView extends GetView<SignUpController> {
               height: 20.h,
             ),
             ReusableTextField(
-                controller: controller.password, hintText: "Password"),
+                controller: controller.password, hintText: "Password",obscure: true),
             SizedBox(
               height: 40.h,
             ),

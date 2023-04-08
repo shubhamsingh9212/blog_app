@@ -1,23 +1,14 @@
+import 'package:blog_app/app/models/blog_models.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class BlogDetailScreenController extends GetxController {
-  //TODO: Implement BlogDetailScreenController
 
-  final count = 0.obs;
+  final BlogModel argument = Get.arguments;
+
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

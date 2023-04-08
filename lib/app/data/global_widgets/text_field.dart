@@ -6,9 +6,10 @@ class ReusableTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final int maxLine;
+  final bool obscure;
 
   const ReusableTextField(
-      {Key? key, required this.controller, required this.hintText,  this.maxLine = 1})
+      {Key? key, required this.controller, required this.hintText,  this.maxLine = 1, this.obscure=false})
       : super(key: key);
 
   @override
@@ -19,6 +20,7 @@ class ReusableTextField extends StatelessWidget {
         // keyboardType: isMultiLine ?  TextInputType.multiline : TextInputType.text,
         controller: controller,
         maxLines: maxLine ,
+        obscureText: obscure,
         decoration: InputDecoration(
         hintText: hintText,
         border:

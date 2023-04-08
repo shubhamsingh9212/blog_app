@@ -22,7 +22,9 @@ class HomeView extends GetView<HomeController> {
             Text("Blog App",
                 style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w500)),
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed(Routes.PROFILE);
+                },
                 icon: Icon(
                   Icons.account_circle,
                   size: 32.h,
@@ -37,7 +39,9 @@ class HomeView extends GetView<HomeController> {
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.all(8.0.sp),
-                      child: Post(
+                      child: Post(delete: (){},
+                        edit: (){},
+                        isPopUpMenuEnabled: false,
                         model: value.blogs[index],
                       ),
                     );

@@ -5,7 +5,7 @@ import 'package:blog_app/app/data/global_widgets/indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/blog_models.dart';
@@ -16,12 +16,7 @@ class FirebaseFunctions {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _storage = FirebaseStorage.instance;
 
-  // bool _hasMoreData = true;
   final RxBool isLoading = false.obs;
-
-  // DocumentSnapshot? _lastDocument;
-  // final int _documentLimit = 15;
-  // final ScrollController controller = ScrollController();
 
   Future<void> createUserCredential(String name, String email) async {
     try {
@@ -55,7 +50,11 @@ class FirebaseFunctions {
         "time": time
       };
 
-      await _firebaseFirestore.collection("blogs").doc(id).set(blogDetails);
+      await _firebaseFirestore
+          .collection("blogs")
+          .doc(id)
+          .set(blogDetails)
+          .then((value) => saveDataToMyBlogs(id));
     } catch (e) {
       showAlert(e.toString());
     }
@@ -88,7 +87,91 @@ class FirebaseFunctions {
       showAlert(e.toString());
       return [];
     }
-    debugPrint("blog data entered 2");
+
     return blogData;
   }
+
+  Future<void> saveDataToMyBlogs(String id) async {
+    try {
+      await _firebaseFirestore
+          .collection("users")
+          .doc(_auth.currentUser!.uid)
+          .collection("myblog")
+          .doc(id)
+          .set({
+        "id": id,
+      });
+    } catch (e) {
+      showAlert(e.toString());
+    }
+  }
+
+  Future<List> getMyBlogs() async {
+    try {
+      var snapshot = await _firebaseFirestore
+          .collection("users")
+          .doc(_auth.currentUser!.uid)
+          .collection("myblog")
+          .get();
+
+      return snapshot.docs.map((e) => e.data()["id"]).toList();
+    } catch (e) {
+      showAlert("$e");
+      return [];
+    }
+  }
+
+  Future<BlogModel> getBlogsById(String id) async {
+    try {
+      var documentSnapshot =
+          await _firebaseFirestore.collection("blogs").doc(id).get();
+
+      return BlogModel.fromJson(documentSnapshot.data()!);
+    } catch (e) {
+      showAlert("$e");
+      return BlogModel(img: "", description: "", title: "", id: "");
+    }
+  }
+
+  Future<void> deletePublicBlog(String id) async {
+    try {
+      await _firebaseFirestore.collection("blogs").doc(id).delete();
+    } catch (e) {
+      showAlert("$e");
+    }
+  }
+  Future<void> deleteBlog(String id) async{
+    await Future.wait([
+      deleteMyBlog(id),
+      deletePublicBlog(id)
+    ]);
+  }
+
+
+
+  Future<void> deleteMyBlog(String id) async {
+    debugPrint("doc id : $id");
+    try {
+      await _firebaseFirestore
+          .collection("users")
+          .doc(_auth.currentUser!.uid)
+          .collection("myblog")
+          .doc(id)
+          .delete();
+
+
+    } catch (e) {
+      showAlert("$e");
+    }
+  }
+
+  Future<void> editBlog(String id , Map <String,dynamic> map) async{
+
+    try{
+      await _firebaseFirestore.collection("blogs").doc(id).update(map);
+
+    }catch(e){showAlert("$e");}
+
+  }
+
 }

@@ -9,6 +9,8 @@ abstract class Routes {
   static const AUTHENTICATION = _Paths.AUTHENTICATION;
   static const BLOG_DETAIL_SCREEN = _Paths.BLOG_DETAIL_SCREEN;
   static const UPLOAD_BLOG = _Paths.UPLOAD_BLOG;
+  static const PROFILE = _Paths.PROFILE;
+  static const MY_BLOGS = _Paths.MY_BLOGS;
 }
 
 abstract class _Paths {
@@ -19,4 +21,6 @@ abstract class _Paths {
   static const AUTHENTICATION = '/authentication';
   static const BLOG_DETAIL_SCREEN = '/blog-detail-screen';
   static const UPLOAD_BLOG = '/upload-blog';
+  static const PROFILE = '/profile';
+  static const MY_BLOGS = '/my-blogs';
 }

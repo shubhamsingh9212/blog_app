@@ -8,6 +8,10 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/my_blogs/bindings/my_blogs_binding.dart';
+import '../modules/my_blogs/views/my_blogs_view.dart';
+import '../modules/profile/bindings/profile_binding.dart';
+import '../modules/profile/views/profile_view.dart';
 import '../modules/sign_up/bindings/sign_up_binding.dart';
 import '../modules/sign_up/views/sign_up_view.dart';
 import '../modules/upload_blog/bindings/upload_blog_binding.dart';
@@ -48,8 +52,18 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.UPLOAD_BLOG,
-      page: () => const UploadBlogView(),
+      page: () =>  UploadBlogView(),
       binding: UploadBlogBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE,
+      page: () => const ProfileView(),
+      binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.MY_BLOGS,
+      page: () => const MyBlogsView(),
+      binding: MyBlogsBinding(),
     ),
   ];
 }
