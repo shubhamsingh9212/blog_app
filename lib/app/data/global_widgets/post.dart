@@ -35,7 +35,8 @@ class Post extends StatelessWidget {
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               image: DecorationImage(
-                image: NetworkImage(model.img ?? ""),
+                image: NetworkImage(model.img ?? ""
+                ),
                 fit: BoxFit.cover,
               ),
             ),

@@ -26,15 +26,21 @@ class ProfileView extends GetView<ProfileController> {
               decoration: BoxDecoration(
                   color: Colors.grey[800], shape: BoxShape.circle),
               alignment: Alignment.center,
-              child: Text("A",
-                  style: TextStyle(fontSize: 70.sp, color: Colors.white)),
+              child: Obx(
+                () => controller.userName.value.isNotEmpty
+                    ? Text(controller.userName.value.substring(0, 1),
+                        style: TextStyle(fontSize: 70.sp, color: Colors.white))
+                    : const SizedBox(),
+              ),
             ),
             SizedBox(
               height: 20.h,
             ),
-            Text(
-              "Aditya",
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500),
+            Obx(
+              () => Text(
+                controller.userName.value,
+                style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w500),
+              ),
             ),
             SizedBox(
               height: 20.h,
@@ -48,10 +54,12 @@ class ProfileView extends GetView<ProfileController> {
             SizedBox(
               height: 20.h,
             ),
-            Tile(icon: Icons.logout, title: "Log Out", function: () {
-              controller.functions.logOut();
-
-            }),
+            Tile(
+                icon: Icons.logout,
+                title: "Log Out",
+                function: () {
+                  controller.functions.logOut();
+                }),
           ]),
         ),
       ),

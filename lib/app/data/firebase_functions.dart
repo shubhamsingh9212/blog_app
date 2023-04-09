@@ -108,13 +108,17 @@ class FirebaseFunctions {
 
   Future<List> getMyBlogs() async {
     try {
+      List<String> idList = [];
       var snapshot = await _firebaseFirestore
           .collection("users")
           .doc(_auth.currentUser!.uid)
           .collection("myblog")
           .get();
 
-      return snapshot.docs.map((e) => e.data()["id"]).toList();
+      for (int i = 0; i < snapshot.docs.length; i++) {
+        idList.add(snapshot.docs[i].id);
+      }
+      return idList;
     } catch (e) {
       showAlert("$e");
       return [];
@@ -129,6 +133,7 @@ class FirebaseFunctions {
       return BlogModel.fromJson(documentSnapshot.data()!);
     } catch (e) {
       showAlert("$e");
+
       return BlogModel(img: "", description: "", title: "", id: "");
     }
   }
@@ -140,14 +145,10 @@ class FirebaseFunctions {
       showAlert("$e");
     }
   }
-  Future<void> deleteBlog(String id) async{
-    await Future.wait([
-      deleteMyBlog(id),
-      deletePublicBlog(id)
-    ]);
+
+  Future<void> deleteBlog(String id) async {
+    await Future.wait([deleteMyBlog(id), deletePublicBlog(id)]);
   }
-
-
 
   Future<void> deleteMyBlog(String id) async {
     debugPrint("doc id : $id");
@@ -158,20 +159,16 @@ class FirebaseFunctions {
           .collection("myblog")
           .doc(id)
           .delete();
-
-
     } catch (e) {
       showAlert("$e");
     }
   }
 
-  Future<void> editBlog(String id , Map <String,dynamic> map) async{
-
-    try{
+  Future<void> editBlog(String id, Map<String, dynamic> map) async {
+    try {
       await _firebaseFirestore.collection("blogs").doc(id).update(map);
-
-    }catch(e){showAlert("$e");}
-
+    } catch (e) {
+      showAlert("$e");
+    }
   }
-
 }

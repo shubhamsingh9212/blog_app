@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   final TextEditingController password = TextEditingController();
   final FirebaseAuthentication _authentication = FirebaseAuthentication();
 
-  void onLogin() async {
+  void onLogin() async{
     Indicator.showLoading();
     if (email.text.isNotEmpty && password.text.isNotEmpty) {
       await _authentication.login(email.text.trim(), password.text.trim()).then((value) {

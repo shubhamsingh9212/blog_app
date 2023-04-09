@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import '../../../routes/app_pages.dart';
 
 class AuthenticationController extends GetxController {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void isLoggedIn() {
@@ -20,8 +19,4 @@ class AuthenticationController extends GetxController {
     super.onReady();
     isLoggedIn();
   }
-
 }
-
-
-

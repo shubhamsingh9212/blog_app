@@ -1,6 +1,7 @@
 import 'package:blog_app/app/data/firebase_functions.dart';
 import 'package:blog_app/app/data/global_widgets/indicator.dart';
 import 'package:blog_app/app/models/blog_models.dart';
+import 'package:blog_app/app/modules/home/controllers/home_controller.dart';
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
@@ -27,21 +28,17 @@ class MyBlogsController extends GetxController {
     Indicator.showLoading();
 
     await _functions.deleteBlog(id).then((value) {
-      myBlogs= [];
+      myBlogs = [];
       getMyBlogData();
     });
+    final homeController = Get.find<HomeController>();
+    homeController.getData();
     Indicator.closeLoading();
   }
 
-  void editBlog(BlogModel model){
+  void editBlog(BlogModel model) {
     Get.toNamed(Routes.UPLOAD_BLOG, arguments: model);
-
   }
-
-
-
-
-
 
   @override
   void onInit() {
